@@ -1,11 +1,11 @@
 export const metadata = { title: "Thank You — Hail to the Queen LLC" };
-export default function TY() {
+
+export default function ThankYou() {
   return (
-    <main className="min-h-screen p-8">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-3xl font-semibold">Thanks! 🎉</h1>
-        <p className="mt-2">We received your request. We'll reach out shortly.</p>
-      </div>
-    </main>
+    <div className="max-w-2xl mx-auto p-12 text-center">
+      <h1 className="text-4xl font-bold text-blue-900">Thank You! 🎉</h1>
+      <p className="mt-4 text-lg">We’ve received your request and will reach out shortly.</p>
+      <p className="mt-2 text-gray-600">If it’s urgent, call us now at (555) 555-5555.</p>
+    </div>
   );
 }
