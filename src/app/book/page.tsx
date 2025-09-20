@@ -1,6 +1,7 @@
 export const metadata = { title: "Book — Hail to the Queen LLC" };
 
-const CAL_HANDLE = hail-queen-79ucid; // <-- put your Cal.com username here
+// 👇 wrap your cal handle in quotes
+const CAL_HANDLE = "hail-queen-79ucid"; 
 
 export default function Book() {
   return (
