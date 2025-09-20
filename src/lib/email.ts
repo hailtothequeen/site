@@ -18,9 +18,14 @@ export async function notifyLead(to: string, subject: string, text: string) {
       subject,
       text,
     });
-    console.log('[notifyLead] sent ok:', result?.id || result);
+
+    if (result.error) {
+      console.error('[notifyLead] send error:', result.error);
+    } else {
+      console.log('[notifyLead] sent ok:', result.data);
+    }
   } catch (err: any) {
-    console.error('[notifyLead] send error:', err?.message || err);
+    console.error('[notifyLead] send exception:', err?.message || err);
     throw err;
   }
 }
