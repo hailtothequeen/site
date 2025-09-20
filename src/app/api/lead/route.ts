@@ -25,19 +25,29 @@ const LeadSchema = z.object({
   utm_campaign: z.string().optional().default(''),
   utm_term: z.string().optional().default(''),
   utm_content: z.string().optional().default(''),
+  hp_company: z.string().optional().default(''),
+  ts: z.coerce.number().optional().default(0),
 });
 
 export async function POST(req: NextRequest) {
+  const started = Date.now();
   const form = await req.formData();
+
+  // spam traps
+  const hp = String(form.get('hp_company') || '').trim();
+  const ts = Number(form.get('ts') || 0);
+  const elapsed = started - ts;
+  if (hp) return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
+  if (!ts || elapsed < 3000) return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
+
   const data = Object.fromEntries(form) as Record<string, string>;
-  const parse = LeadSchema.safeParse(data);
-  if (!parse.success) {
-    console.error(parse.error.flatten());
-    // back to form with message (could enhance later)
+  const parsed = LeadSchema.safeParse(data);
+  if (!parsed.success) {
+    console.error(parsed.error.flatten());
     return NextResponse.redirect(new URL('/quote?error=invalid', req.url), { status: 303 });
   }
 
-  const lead = parse.data;
+  const lead = parsed.data;
   const est = estimateRoof({
     sqft: lead.sqft,
     pitch: lead.pitch,
@@ -48,8 +58,7 @@ export async function POST(req: NextRequest) {
 
   const inbox = process.env.SALES_INBOX || 'sales@example.com';
   const subject = `New Lead: ${lead.name} — ${lead.service}`;
-  const text =
-`New lead from website:
+  const text = `New lead from website:
 
 Name: ${lead.name}
 Email: ${lead.email}
@@ -74,12 +83,7 @@ source=${lead.utm_source} medium=${lead.utm_medium} campaign=${lead.utm_campaign
 Estimator v0:
 Range: $${est.low.toLocaleString()} - $${est.high.toLocaleString()}`;
 
-  try {
-    await notifyLead(inbox, subject, text);
-  } catch (e) {
-    console.error('notifyLead error:', e);
-  }
+  try { await notifyLead(inbox, subject, text); } catch (e) { console.error(e); }
 
-  // Optional: write to a DB later (Supabase/HubSpot). For now, email + redirect.
   return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
 }

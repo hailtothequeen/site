@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div>
               <h2 className="font-semibold">Contact</h2>
               <p className="text-sm">Phone: (555) 555-5555</p>
-              <p className="text-sm">Email: info@hail2thequeen.com</p>
+              <p className="text-sm">Email: hailtothequeenllc@gmail.com</p>
             </div>
             <div>
               <h2 className="font-semibold">Service Area</h2>
