@@ -18,6 +18,8 @@ function useUTM() {
   return utm;
 }
 
+const baseInput = "mt-1 w-full border border-gray-300 rounded px-3 py-2 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600";
+
 export default function QuoteClient() {
   const utm = useUTM();
   return (
@@ -31,52 +33,82 @@ export default function QuoteClient() {
         <input type="hidden" id="ts" name="ts" value="" />
 
         <div className="grid md:grid-cols-2 gap-4">
-          <div><label className="block text-sm font-medium">Full Name</label>
-            <input name="name" required className="mt-1 w-full border rounded px-3 py-2" /></div>
-          <div><label className="block text-sm font-medium">Phone</label>
-            <input name="phone" required className="mt-1 w-full border rounded px-3 py-2" /></div>
-          <div><label className="block text-sm font-medium">Email (optional)</label>
-            <input type="email" name="email" className="mt-1 w-full border rounded px-3 py-2" /></div>
-          <div><label className="block text-sm font-medium">Service</label>
-            <select name="service" className="mt-1 w-full border rounded px-3 py-2">
-              <option>Roof Repair</option><option>Roof Replacement</option>
-              <option>Storm / Hail Assessment</option><option>Gutters / Siding</option>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Full Name</label>
+            <input name="name" required placeholder="Jane Doe" className={baseInput} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Phone</label>
+            <input name="phone" required placeholder="(555) 555-5555" className={baseInput} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Email (optional)</label>
+            <input type="email" name="email" placeholder="you@example.com" className={baseInput} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Service</label>
+            <select name="service" className={baseInput}>
+              <option>Roof Repair</option>
+              <option>Roof Replacement</option>
+              <option>Storm / Hail Assessment</option>
+              <option>Gutters / Siding</option>
               <option>Public Adjusting</option>
-            </select></div>
+            </select>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
-          <div><label className="block text-sm font-medium">Address</label>
-            <input name="address" required className="mt-1 w-full border rounded px-3 py-2" /></div>
-          <div><label className="block text-sm font-medium">City</label>
-            <input name="city" required className="mt-1 w-full border rounded px-3 py-2" /></div>
-          <div><label className="block text-sm font-medium">State</label>
-            <input name="state" required className="mt-1 w-full border rounded px-3 py-2" /></div>
-          <div><label className="block text-sm font-medium">ZIP</label>
-            <input name="zip" required className="mt-1 w-full border rounded px-3 py-2" /></div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Address</label>
+            <input name="address" required placeholder="123 Main St" className={baseInput} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">City</label>
+            <input name="city" required placeholder="Springfield" className={baseInput} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">State</label>
+            <input name="state" required placeholder="IL" className={baseInput} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">ZIP</label>
+            <input name="zip" required placeholder="60601" className={baseInput} />
+          </div>
         </div>
 
         <fieldset className="grid md:grid-cols-5 gap-4">
-          <div className="md:col-span-2"><label className="block text-sm font-medium">Roof Size (sq ft)</label>
-            <input type="number" name="sqft" min="100" max="20000" defaultValue="1500" className="mt-1 w-full border rounded px-3 py-2" /></div>
-          <div><label className="block text-sm font-medium">Stories</label>
-            <select name="stories" className="mt-1 w-full border rounded px-3 py-2" defaultValue="1">
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-800">Roof Size (sq ft)</label>
+            <input type="number" name="sqft" min="100" max="20000" defaultValue="1500" className={baseInput} />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Stories</label>
+            <select name="stories" className={baseInput} defaultValue="1">
               <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-            </select></div>
-          <div><label className="block text-sm font-medium">Material</label>
-            <select name="material" className="mt-1 w-full border rounded px-3 py-2">
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Material</label>
+            <select name="material" className={baseInput}>
               <option value="asphalt">Asphalt</option><option value="metal">Metal</option><option value="tile">Tile</option>
-            </select></div>
-          <div><label className="block text-sm font-medium">Pitch</label>
-            <select name="pitch" className="mt-1 w-full border rounded px-3 py-2">
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Pitch</label>
+            <select name="pitch" className={baseInput}>
               <option value="low">Low</option><option value="med">Medium</option><option value="steep">Steep</option>
-            </select></div>
-          <div><label className="block text-sm font-medium">Roof Age (years)</label>
-            <input type="number" name="ageYears" min="0" max="80" defaultValue="15" className="mt-1 w-full border rounded px-3 py-2" /></div>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-800">Roof Age (years)</label>
+            <input type="number" name="ageYears" min="0" max="80" defaultValue="15" className={baseInput} />
+          </div>
         </fieldset>
 
-        <div><label className="block text-sm font-medium">Notes</label>
-          <textarea name="notes" rows={4} className="mt-1 w-full border rounded px-3 py-2" placeholder="Anything helpful…" /></div>
+        <div>
+          <label className="block text-sm font-medium text-gray-800">Notes</label>
+          <textarea name="notes" rows={4} placeholder="Anything helpful…" className={baseInput} />
+        </div>
 
         {/* UTM passthrough */}
         <input type="hidden" name="utm_source" value={utm.utm_source || ''} />
@@ -85,9 +117,7 @@ export default function QuoteClient() {
         <input type="hidden" name="utm_term" value={utm.utm_term || ''} />
         <input type="hidden" name="utm_content" value={utm.utm_content || ''} />
 
-        <button className="bg-blue-900 text-white px-6 py-3 rounded font-semibold hover:bg-blue-800">
-          Get My Estimate
-        </button>
+        <button className="bg-blue-900 text-white px-6 py-3 rounded font-semibold hover:bg-blue-800">Get My Estimate</button>
       </form>
     </div>
   );
