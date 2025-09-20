@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   const ts = Number(form.get('ts') || 0);
   const elapsed = started - ts;
   if (hp) return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
-  if (!ts || elapsed < 3000) return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
+  if (!ts || elapsed < 400) return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
 
   const data = Object.fromEntries(form) as Record<string, string>;
   const parsed = LeadSchema.safeParse(data);
