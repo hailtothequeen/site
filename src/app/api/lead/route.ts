@@ -1,89 +1,72 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { z } from 'zod';
-import { estimateRoof } from '@/lib/estimator';
+import { NextResponse } from 'next/server';
 import { notifyLead } from '@/lib/email';
 
 export const runtime = 'nodejs';
 
-const LeadSchema = z.object({
-  name: z.string().min(1),
-  email: z.string().email().optional().or(z.literal('')),
-  phone: z.string().min(7).max(30),
-  address: z.string().min(1),
-  city: z.string().min(1),
-  state: z.string().min(2),
-  zip: z.string().min(3),
-  service: z.string().min(1),
-  sqft: z.coerce.number().min(100).max(20000).default(1500),
-  material: z.enum(['asphalt','metal','tile']),
-  pitch: z.enum(['low','med','steep']),
-  ageYears: z.coerce.number().min(0).max(80).default(15),
-  stories: z.coerce.number().int().min(1).max(3).default(1),
-  notes: z.string().optional().default(''),
-  utm_source: z.string().optional().default(''),
-  utm_medium: z.string().optional().default(''),
-  utm_campaign: z.string().optional().default(''),
-  utm_term: z.string().optional().default(''),
-  utm_content: z.string().optional().default(''),
-  hp_company: z.string().optional().default(''),
-  ts: z.coerce.number().optional().default(0),
-});
+export async function POST(req: Request) {
+  const data = await req.formData();
+  const ts = Number(data.get('ts') || 0);
+  const hp = String(data.get('hp_company') || '');
 
-export async function POST(req: NextRequest) {
-  const started = Date.now();
-  const form = await req.formData();
-
-  // spam traps
-  const hp = String(form.get('hp_company') || '').trim();
-  const ts = Number(form.get('ts') || 0);
-  const elapsed = started - ts;
-  if (hp) return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
-  if (!ts || elapsed < 400) return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
-
-  const data = Object.fromEntries(form) as Record<string, string>;
-  const parsed = LeadSchema.safeParse(data);
-  if (!parsed.success) {
-    console.error(parsed.error.flatten());
-    return NextResponse.redirect(new URL('/quote?error=invalid', req.url), { status: 303 });
+  // spam check
+  const elapsed = Date.now() - ts;
+  if (hp || elapsed < 400) {
+    console.warn('[lead] spam blocked', { elapsed, hp });
+    return NextResponse.redirect('/thank-you');
   }
 
-  const lead = parsed.data;
-  const est = estimateRoof({
-    sqft: lead.sqft,
-    pitch: lead.pitch,
-    material: lead.material,
-    ageYears: lead.ageYears,
-    stories: lead.stories as 1|2|3,
-  });
+  // collect fields
+  const name = String(data.get('name') || '');
+  const phone = String(data.get('phone') || '');
+  const email = String(data.get('email') || '');
+  const service = String(data.get('service') || '');
+  const address = String(data.get('address') || '');
+  const city = String(data.get('city') || '');
+  const state = String(data.get('state') || '');
+  const zip = String(data.get('zip') || '');
+  const notes = String(data.get('notes') || '');
+  const sqft = String(data.get('sqft') || '');
+  const stories = String(data.get('stories') || '');
+  const material = String(data.get('material') || '');
+  const pitch = String(data.get('pitch') || '');
+  const ageYears = String(data.get('ageYears') || '');
+  const utm_source = String(data.get('utm_source') || '');
+  const utm_medium = String(data.get('utm_medium') || '');
+  const utm_campaign = String(data.get('utm_campaign') || '');
+  const utm_term = String(data.get('utm_term') || '');
+  const utm_content = String(data.get('utm_content') || '');
 
-  const inbox = process.env.SALES_INBOX || 'sales@example.com';
-  const subject = `New Lead: ${lead.name} — ${lead.service}`;
-  const text = `New lead from website:
+  const body = `
+New lead request:
 
-Name: ${lead.name}
-Email: ${lead.email}
-Phone: ${lead.phone}
+Name: ${name}
+Phone: ${phone}
+Email: ${email}
+Service: ${service}
+Address: ${address}, ${city}, ${state} ${zip}
+Roof: ${sqft} sqft, ${stories} stories, ${material}, ${pitch}, ${ageYears} yrs
+Notes: ${notes}
 
-Address: ${lead.address}, ${lead.city}, ${lead.state} ${lead.zip}
-Service: ${lead.service}
+UTM: source=${utm_source}, medium=${utm_medium}, campaign=${utm_campaign}, term=${utm_term}, content=${utm_content}
+  `;
 
-Roof Info:
-- Sq Ft: ${lead.sqft}
-- Material: ${lead.material}
-- Pitch: ${lead.pitch}
-- Age (yrs): ${lead.ageYears}
-- Stories: ${lead.stories}
+  const inbox = process.env.SALES_INBOX || '';
 
-Notes:
-${lead.notes || '(none)'}
+  try {
+    // internal notification
+    await notifyLead(inbox, `New Lead: ${name} (${service})`, body);
 
-UTM:
-source=${lead.utm_source} medium=${lead.utm_medium} campaign=${lead.utm_campaign} term=${lead.utm_term} content=${lead.utm_content}
+    // customer confirmation (if email entered)
+    if (email) {
+      await notifyLead(
+        email,
+        "Thanks — we've received your request",
+        `Hi ${name || 'there'},\n\nThanks for contacting Hail to the Queen LLC about "${service}". We’ll review your request and call you at ${phone} shortly.\n\n— Hail to the Queen LLC`
+      );
+    }
+  } catch (err) {
+    console.error('[lead] email send error:', err);
+  }
 
-Estimator v0:
-Range: $${est.low.toLocaleString()} - $${est.high.toLocaleString()}`;
-
-  try { await notifyLead(inbox, subject, text); } catch (e) { console.error(e); }
-
-  return NextResponse.redirect(new URL('/thank-you', req.url), { status: 303 });
+  return NextResponse.redirect('/thank-you');
 }
