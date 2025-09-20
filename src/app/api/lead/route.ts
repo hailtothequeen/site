@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   // fields
   const name = String(data.get('name') || '');
   const phone = String(data.get('phone') || '');
-  const email = String(data.get('email') || '');
+  const email = String(data.get('email') || data.get('customer_email') || data.get('email_address') || '');
   const service = String(data.get('service') || '');
   const address = String(data.get('address') || '');
   const city = String(data.get('city') || '');
