@@ -2,16 +2,15 @@ import Link from "next/link";
 
 export const dynamic = "force-static";
 
-type SP = Record<string, string | string[] | undefined>;
+// Loosen types to avoid Next 15 generics mismatch
+export default function ThankYou(props: any) {
+  const sp = (props && props.searchParams) || {};
+  const pick = (v: any) => (Array.isArray(v) ? (v[0] ?? "") : (v ?? ""));
 
-export default function ThankYou({ searchParams }: { searchParams?: SP }) {
-  const pick = (v: string | string[] | undefined) =>
-    Array.isArray(v) ? (v[0] ?? "") : (v ?? "");
-
-  const name  = pick(searchParams?.name);
-  const email = pick(searchParams?.email);
-  const phone = pick(searchParams?.phone);
-  const svc   = pick(searchParams?.service);
+  const name  = pick(sp.name);
+  const email = pick(sp.email);
+  const phone = pick(sp.phone);
+  const svc   = pick(sp.service);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-12">
