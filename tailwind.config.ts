@@ -1,15 +1,18 @@
 import type { Config } from 'tailwindcss'
 
-export default {
-  content: ["./src/**/*.{js,ts,jsx,tsx}"],
+const config: Config = {
+  content: [
+    "./src/app/**/*.{js,ts,jsx,tsx}",
+    "./src/components/**/*.{js,ts,jsx,tsx}"
+  ],
   theme: {
     extend: {
       colors: {
         brand: {
-          navy: "#0B2447",   // deep professional blue
-          blue: "#134B8A",   // secondary blue
-          red:  "#B91C1C",   // accent red
-          light:"#F8FAFC",   // near-white bg
+          navy: "#0B2447",
+          blue: "#134B8A",
+          red:  "#B91C1C",
+          light:"#F8FAFC",
         },
       },
       boxShadow: {
@@ -18,4 +21,5 @@ export default {
     },
   },
   plugins: [],
-} satisfies Config
+}
+export default config
