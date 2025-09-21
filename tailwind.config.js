@@ -8,10 +8,10 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          navy: "#0B2447",   // deep blue
-          blue: "#134B8A",   // secondary
-          red:  "#B91C1C",   // accent
-          light:"#F8FAFC",   // bg
+          navy: "#0B2447",
+          blue: "#134B8A",
+          red:  "#B91C1C",
+          light:"#F8FAFC",
         },
       },
       boxShadow: {
