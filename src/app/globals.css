@@ -1,26 +1,19 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root { color-scheme: light; }
+body { @apply bg-brand-light text-slate-900; }
+a { @apply text-brand-blue hover:text-brand-navy underline underline-offset-4; }
+
+.btn {
+  @apply inline-flex items-center justify-center px-5 py-3 rounded-md font-semibold
+         bg-brand-navy text-white hover:bg-brand-blue transition;
 }
+.btn-red { @apply bg-brand-red hover:brightness-110 text-white; }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.card { @apply bg-white border border-slate-200 rounded-lg shadow-card; }
+.input {
+  @apply w-full border border-slate-300 rounded px-3 py-2 bg-white text-slate-900
+         placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-blue focus:border-brand-blue;
 }

@@ -35,13 +35,13 @@ export default function QuoteClient() {
         {/* Contact */}
         <div className="grid md:grid-cols-2 gap-4">
           <div><label className="block text-sm font-medium text-gray-800">Full Name</label>
-            <input name="name" required placeholder="Jane Doe" className={input} /></div>
+            <input name="name" required placeholder="Jane Doe" className="input" /></div>
           <div><label className="block text-sm font-medium text-gray-800">Phone</label>
-            <input name="phone" required placeholder="(555) 555-5555" className={input} /></div>
+            <input name="phone" required placeholder="(555) 555-5555" className="input" /></div>
           <div><label className="block text-sm font-medium text-gray-800">Email</label>
-            <input type="email" name="email" placeholder="you@example.com" className={input} /></div>
+            <input type="email" name="email" placeholder="you@example.com" className="input" /></div>
           <div><label className="block text-sm font-medium text-gray-800">Service</label>
-            <select name="service" className={input}>
+            <select name="service" className="input">
               <option>Roof Repair</option>
               <option>Roof Replacement</option>
               <option>Storm / Hail Assessment</option>
@@ -53,58 +53,58 @@ export default function QuoteClient() {
         {/* Address */}
         <div className="grid md:grid-cols-2 gap-4">
           <div><label className="block text-sm font-medium text-gray-800">Address</label>
-            <input name="address" required placeholder="123 Main St" className={input} /></div>
+            <input name="address" required placeholder="123 Main St" className="input" /></div>
           <div><label className="block text-sm font-medium text-gray-800">City</label>
-            <input name="city" required placeholder="Springfield" className={input} /></div>
+            <input name="city" required placeholder="Springfield" className="input" /></div>
           <div><label className="block text-sm font-medium text-gray-800">State</label>
-            <input name="state" required placeholder="IL" className={input} /></div>
+            <input name="state" required placeholder="IL" className="input" /></div>
           <div><label className="block text-sm font-medium text-gray-800">ZIP</label>
-            <input name="zip" required placeholder="60601" className={input} /></div>
+            <input name="zip" required placeholder="60601" className="input" /></div>
         </div>
 
         {/* Roof details */}
         <fieldset className="grid md:grid-cols-5 gap-4">
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-800">Roof Size (sq ft)</label>
-            <input type="number" name="sqft" min="100" max="20000" defaultValue="1500" className={input} />
+            <input type="number" name="sqft" min="100" max="20000" defaultValue="1500" className="input" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-800">Stories</label>
-            <select name="stories" className={input} defaultValue="1">
+            <select name="stories" className="input" defaultValue="1">
               <option value="1">1</option><option value="2">2</option><option value="3">3</option>
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-800">Material</label>
-            <select name="material" className={input}>
+            <select name="material" className="input">
               <option value="asphalt">Asphalt</option><option value="metal">Metal</option><option value="tile">Tile</option>
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-800">Pitch</label>
-            <select name="pitch" className={input}>
+            <select name="pitch" className="input">
               <option value="low">Low</option><option value="med">Medium</option><option value="steep">Steep</option>
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-800">Roof Age (years)</label>
-            <input type="number" name="ageYears" min="0" max="80" defaultValue="15" className={input} />
+            <input type="number" name="ageYears" min="0" max="80" defaultValue="15" className="input" />
           </div>
         </fieldset>
 
         {/* Insurance (new) */}
         <div className="grid md:grid-cols-3 gap-4">
           <div><label className="block text-sm font-medium text-gray-800">Insurance Provider (optional)</label>
-            <input name="insProvider" placeholder="State Farm, Allstate…" className={input} /></div>
+            <input name="insProvider" placeholder="State Farm, Allstate…" className="input" /></div>
           <div><label className="block text-sm font-medium text-gray-800">Policy # (optional)</label>
-            <input name="insPolicy" placeholder="ABC1234567" className={input} /></div>
+            <input name="insPolicy" placeholder="ABC1234567" className="input" /></div>
           <div><label className="block text-sm font-medium text-gray-800">Claim # (if any)</label>
-            <input name="insClaim" placeholder="(if already filed)" className={input} /></div>
+            <input name="insClaim" placeholder="(if already filed)" className="input" /></div>
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-800">Notes</label>
-          <textarea name="notes" rows={4} placeholder="Anything helpful…" className={input} />
+          <textarea name="notes" rows={4} placeholder="Anything helpful…" className="input" />
         </div>
 
         {/* UTM passthrough */}
