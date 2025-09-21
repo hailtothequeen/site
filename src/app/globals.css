@@ -4,8 +4,8 @@
 
 :root { color-scheme: light; }
 body { @apply bg-brand-light text-slate-900; }
-a { @apply text-brand-blue hover:text-brand-navy underline underline-offset-4; }
 
+a { @apply underline underline-offset-4; }
 .btn {
   @apply inline-flex items-center justify-center px-5 py-3 rounded-md font-semibold
          bg-brand-navy text-white hover:bg-brand-blue transition;
